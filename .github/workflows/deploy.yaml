@@ -19,7 +19,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            gaoneng-www/k8s-real-combat-server
+            gaonengwww/k8s-real-combat-server
           tags: |
             type=schedule
             type=ref,event=branch

@@ -1,0 +1,7 @@
+node_modules
+.eslintrc.js
+.editorconfig
+.prettierrc
+pnpm-lock.yaml
+*.md
+dist

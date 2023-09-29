@@ -1,0 +1,42 @@
+syntax = "proto3";
+import "common.proto";
+package User;
+message Empty {}
+service UserService {
+  rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
+  rpc GetUser(GetUserRequest) returns (User);
+  rpc CreateUser(CreateUserRequest) returns (User);
+  rpc UpdateUser(UpdateUserRequest) returns (User);
+  rpc DeleteUser(DeleteUserRequest) returns (Empty);
+}
+message User {
+    string email=1;
+    string nick=2;
+    string description=3;
+    string password=4;
+}
+message ListUsersRequest {
+    int64 offset=1;
+    int64 limit=2;
+}
+message GetUserRequest {
+    string email=1;
+}
+message CreateUserRequest {
+    string email=1;
+    string nick=2;
+    string description=3;
+    string password=4;
+}
+message UpdateUserRequest {
+    string email=1;
+    User user = 2;
+}
+message DeleteUserRequest {
+    string email=1;
+}
+
+message ListUsersResponse {
+    repeated User user=1;
+    int64 total=2;
+}

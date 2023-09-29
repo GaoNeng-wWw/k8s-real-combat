@@ -1,0 +1,10 @@
+FROM node:18-alpine
+
+WORKDIR /usr/user
+COPY  . .
+RUN npm install -g pnpm && \
+    pnpm install && \
+    pnpm build user
+ENV DB_URL=''
+CMD ["node", "./dist/apps/user/main.js"]
+EXPOSE 3000

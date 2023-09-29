@@ -1,0 +1,37 @@
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: node-app
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: node-app
+#   template:
+#     metadata:
+#       labels:
+#         app: node-app
+#     spec:
+#       containers:
+#       - name: user
+#         image: user:v1
+#         resources:
+#           limits:
+#             memory: 1024
+#         ports:
+#           - containerPort: 3000
+#         imagePullPolicy: Never
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: node-app
+# spec:
+#   selector:
+#     app: node-app
+#   type: LoadBalancer
+#   ports:
+#     - port: 3000
+#       targetPort: 3000
+

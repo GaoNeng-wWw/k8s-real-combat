@@ -5,14 +5,16 @@ import { MongooseModule } from '@nestjs/mongoose';
     imports: [
         MongooseModule.forRootAsync({
             useFactory() {
+                console.log(
+                    `Ready to connect ${
+                        process.env.DB_URL ??
+                        'mongodb://127.0.0.1:27017/?directConnection=true'
+                    }`,
+                );
                 return {
                     uri:
                         process.env.DB_URL ??
                         'mongodb://127.0.0.1:27017/?directConnection=true',
-                    connectTimeoutMS: 500,
-                    socketTimeoutMS: 500,
-                    waitQueueTimeoutMS: 500,
-                    serverSelectionTimeoutMS: 500,
                 };
             },
         }),

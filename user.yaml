@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: config-map
 data:
-  db-url: mongodb://mongo:30017/?directConnection=true
+  db-url: mongodb://mongo:27017/?directConnection=true
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -24,13 +24,15 @@ spec:
       containers:
         - name: api
           image: gaonengwww/k8s-real-combat-server
-          imagePullPolicy: IfNotPresent
           args: ["dist/apps/user/main"]
           ports:
             - containerPort: 3000
           env:
             - name: DB_URL
-              value: 'mongodb://mongo:30017/?directConnection=true'
+              valueFrom:
+                configMapKeyRef:
+                  name: config-map
+                  key: db-url
 ---
 apiVersion: v1
 kind: Service
@@ -65,10 +67,9 @@ spec:
       containers:
         - name: microservice
           image: gaonengwww/k8s-real-combat-server
-          imagePullPolicy: IfNotPresent
           args: ["dist/apps/user/main"]
           env:
-            - name: db-url
+            - name: DB_URL
               valueFrom:
                 configMapKeyRef:
                   name: config-map

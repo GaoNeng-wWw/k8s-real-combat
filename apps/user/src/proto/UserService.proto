@@ -1,5 +1,4 @@
 syntax = "proto3";
-import "common.proto";
 package User;
 message Empty {}
 service UserService {

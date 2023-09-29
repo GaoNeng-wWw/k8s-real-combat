@@ -2,15 +2,15 @@ import { User } from '@app/schema';
 import {
     IsEmail,
     IsNotEmpty,
-    IsNumber,
     IsObject,
+    IsPositive,
     IsString,
 } from 'class-validator';
 
 export class ListUserReuqest {
-    @IsNumber()
+    @IsPositive()
     offset: number;
-    @IsNumber()
+    @IsPositive()
     limit: number;
 }
 export class GetUserRequest {

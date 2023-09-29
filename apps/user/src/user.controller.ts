@@ -1,6 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { UserService } from './user.service';
-import { GrpcMethod } from '@nestjs/microservices';
+import { GrpcMethod, Payload } from '@nestjs/microservices';
 import {
     CreateUserRequest,
     DeleteUserRequest,
@@ -8,12 +8,11 @@ import {
     ListUserReuqest,
     UpdateUserRequest,
 } from '@app/dto/user';
-
 @Controller()
 export class UserController {
     constructor(private readonly userService: UserService) {}
     @GrpcMethod('UserService')
-    ListUsers(data: ListUserReuqest) {
+    ListUsers(@Payload() data: ListUserReuqest) {
         return this.userService.listUsers(data);
     }
     @GrpcMethod('UserService')

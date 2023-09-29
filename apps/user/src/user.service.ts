@@ -7,6 +7,8 @@ import {
 } from '@app/dto/user';
 import { User, UserDocument } from '@app/schema';
 import { Injectable } from '@nestjs/common';
+import { RpcException } from '@nestjs/microservices';
+import { status } from '@grpc/grpc-js';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -30,7 +32,14 @@ export class UserService {
     }
     async getUser(data: GetUserRequest) {
         const { email } = data;
-        return this.User.findOne<User>({ email }).exec();
+        const payload = this.User.findOne<User>({ email }).exec();
+        if ((await payload) === null) {
+            throw new RpcException({
+                message: 'USER NOT FIND',
+                code: status.INVALID_ARGUMENT,
+            });
+        }
+        return { payload };
     }
     async createUser(data: CreateUserRequest) {
         const user = new this.User(data);

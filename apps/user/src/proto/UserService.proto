@@ -3,7 +3,7 @@ package User;
 message Empty {}
 service UserService {
   rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
-  rpc GetUser(GetUserRequest) returns (User);
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
   rpc CreateUser(CreateUserRequest) returns (User);
   rpc UpdateUser(UpdateUserRequest) returns (User);
   rpc DeleteUser(DeleteUserRequest) returns (Empty);
@@ -15,8 +15,11 @@ message User {
     string password=4;
 }
 message ListUsersRequest {
-    int64 offset=1;
-    int64 limit=2;
+    int32 offset=1;
+    int32 limit=2;
+}
+message GetUserResponse{
+    optional User payload=1;
 }
 message GetUserRequest {
     string email=1;
@@ -36,6 +39,6 @@ message DeleteUserRequest {
 }
 
 message ListUsersResponse {
-    repeated User user=1;
-    int64 total=2;
+    repeated User users=1;
+    int32 total=2;
 }

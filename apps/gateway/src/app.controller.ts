@@ -46,15 +46,15 @@ export class AppController {
         }
         return this.service.getUser({ email });
     }
-    @Post('/users')
+    @Post('/user')
     async createUser(@Body() user: CreateUserRequest) {
         return this.service.createUser(user);
     }
-    @Put('/users')
+    @Put('/user')
     async updateUser(@Body() user: UpdateUserRequest) {
         return this.service.updateUser(user);
     }
-    @Delete('/users')
+    @Delete('/user')
     async deleteUser(@Body() data: DeleteUserRequest) {
         return this.service.deleteUserRequest(data);
     }

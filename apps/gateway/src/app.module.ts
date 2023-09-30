@@ -9,7 +9,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
                 name: 'user',
                 transport: Transport.GRPC,
                 options: {
-                    url: 'localhost:3000' ?? process.env.USER_URL,
+                    url: process.env.USER_URL ?? 'localhost:3000',
                     package: 'User',
                     protoPath: './proto/UserService.proto',
                 },

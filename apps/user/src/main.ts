@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { UserModule } from './user.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { join } from 'path';
 import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
@@ -13,7 +12,7 @@ async function bootstrap() {
             options: {
                 url,
                 package: 'User',
-                protoPath: join(__dirname, 'proto/UserService.proto'),
+                protoPath: './proto/UserService.proto',
             },
         },
     );

@@ -1,0 +1,10 @@
+FROM node:18-alpine
+
+WORKDIR /usr/gateway
+COPY . .
+RUN npm install -g pnpm && \
+    pnpm install && \
+    pnpm build gateway
+ENV USER_URL=""
+CMD ["node", "./dist/app/gateway/main.js"]
+EXPOSE 4000

@@ -20,10 +20,9 @@ export class UserService {
     ) {}
     async listUsers(data: ListUserReuqest) {
         const { offset, limit } = data;
-        const users = await this.User.find<User>()
-            .limit(limit)
-            .skip(offset)
-            .exec();
+        const users =
+            (await this.User.find<User>().limit(limit).skip(offset).exec()) ??
+            [];
         const total = await this.User.count().exec();
         return {
             users,

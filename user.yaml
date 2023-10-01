@@ -1,42 +1,43 @@
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-map
+data:
+  db-url: mongodb://mongo:27017/?directConnection=true
+  user_url: user-svc:3000
+---
+apiVersion: v1
 kind: Service
 metadata:
-  name: api-service
+  name: user-svc
 spec:
   type: NodePort
   selector:
-    app: api
+    app: user
   ports:
     - protocol: TCP
       port: 3000
       targetPort: 3000
       nodePort: 30100
 ---
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: config-map
-data:
-  db-url: mongodb://mongo:27017/?directConnection=true
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-dep
+  name: user-deploy
   labels:
-    app: api
+    app: user
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: api
+      app: user
   template:
     metadata:
       labels:
-        app: api
+        app: user
     spec:
       containers:
-        - name: api
+        - name: user
           image: gaonengwww/k8s-real-combat-server
           args: ["dist/apps/user/main"]
           ports:
@@ -47,3 +48,45 @@ spec:
                 configMapKeyRef:
                   name: config-map
                   key: db-url
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway
+  labels:
+    app: gateway
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+        - name: gateway
+          image: gaonengwww/k8s-real-combat-gateway
+          ports:
+            - containerPort: 4000
+          env:
+            - name: USER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: config-map
+                  key: user_url
+  selector:
+    matchLabels:
+      app: gateway
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-svc
+spec:
+  type: NodePort
+  selector:
+    app: gateway
+  ports:
+    - protocol: TCP
+      port: 4000
+      targetPort: 4000
+      nodePort: 30400

@@ -17,7 +17,6 @@ async function bootstrap() {
         },
     );
     Logger.log(`App start at ${url}`);
-    // app.useGlobalPipes(new ValidationPipe());
     await app.listen();
 }
 bootstrap();
